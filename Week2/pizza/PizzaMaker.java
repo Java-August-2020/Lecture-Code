@@ -1,4 +1,4 @@
-package Aug2020.Week2;
+package Aug2020.Week2.pizza;
 
 import java.util.Arrays;
 
@@ -13,12 +13,14 @@ public class PizzaMaker {
     // cheesePizza.crustType = "thin crust";
     // System.out.println(Arrays.toString(cheesePizza.toppings));
     // Instantiating Pizza with Constructor
-    Pizza pepperoniPizza = new Pizza(new String[] { "cheese", "pepperoni" }, 'L', "normal crust", 12);
-    System.out.println(pepperoniPizza.eatSlices(5));
-    System.out.println(pepperoniPizza.getSlices());
-    Pizza meatLovers = new Pizza(new String[] { "sasuage", "pepperoni", "steak" }, "stuffed crust", 18);
-    meatLovers.displayPizza();
-    System.out.println(meatLovers.eatSlices(0.5));
+    // Pizza pepperoniPizza = new Pizza(new String[] { "cheese", "pepperoni" }, 'L',
+    // "normal crust", 12);
+    // System.out.println(pepperoniPizza.eatSlices(5));
+    // System.out.println(pepperoniPizza.getSlices());
+    // Pizza meatLovers = new Pizza(new String[] { "sasuage", "pepperoni", "steak"
+    // }, "stuffed crust", 18);
+    // meatLovers.displayPizza();
+    // System.out.println(meatLovers.eatSlices(0.5));
 
   }
 }

@@ -1,4 +1,4 @@
-package Aug2020.Week2;
+package Aug2020.Week2.pizza;
 // Attributes
 
 // Toppings
@@ -16,6 +16,11 @@ public class Pizza {
   private String crustType;
   private int slices;
 
+  public Pizza() {
+
+  }
+
+  // Constructor
   public Pizza(String[] toppings, String crustType, int slices) {
     this.toppings = toppings;
     this.size = 'L';
@@ -84,7 +89,6 @@ public class Pizza {
     double eatenPizza = (double) this.slices;
     eatenPizza -= slices;
     System.out.println("You couldn't finish a full slice, so you ate " + slices + " of a slice");
-
     return eatenPizza;
   }
 }
