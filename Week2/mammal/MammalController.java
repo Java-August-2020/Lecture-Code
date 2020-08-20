@@ -14,5 +14,7 @@ public class MammalController {
     for (Mammal m : ourMammals) {
       System.out.println(m.getSpecies());
     }
+
+    
   }
 }

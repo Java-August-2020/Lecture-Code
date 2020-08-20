@@ -1,0 +1,28 @@
+#wrapper {
+	width: 1200px;
+	margin: auto;
+}
+
+.box {
+	display: inline-block;
+	width: 200px;
+	height: 200px;
+	border: 1px solid black;
+	text-align: center;
+}
+
+.activities{
+	width: 815px;
+	overflow-y: scroll;
+	border: 1px solid black;
+	height: 150px;
+	margin-top: 20px;
+}
+
+.red {
+	color: red;
+}
+
+.green {
+	color: green;
+}
