@@ -11,9 +11,10 @@ import com.matthew.dogs.models.Dog;
 import com.matthew.dogs.services.DogService;
 
 @RestController
-public class DogController {
+@RequestMapping("/api")
+public class DogApiController {
 	private DogService dService;
-	public DogController(DogService service) {
+	public DogApiController(DogService service) {
 		this.dService = service;
 	}
 	

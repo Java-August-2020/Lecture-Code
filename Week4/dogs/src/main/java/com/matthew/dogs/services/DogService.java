@@ -30,6 +30,12 @@ public class DogService {
 		return this.dRepo.save(newDog);
 	}
 	
+	// Create Pet overloaded from the frotnend
+	public Dog createDog(String name, String breed, int age) {
+		Dog newDog = new Dog(name, breed, age);
+		return this.dRepo.save(newDog);
+	}
+	
 	// updatePet
 	public Dog updateDog(Long id, Dog updatedDog) {
 		return this.dRepo.save(updatedDog);
