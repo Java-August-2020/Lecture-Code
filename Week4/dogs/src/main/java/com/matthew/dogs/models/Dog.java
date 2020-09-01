@@ -2,11 +2,14 @@ package com.matthew.dogs.models;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -28,6 +31,8 @@ public class Dog {
 	@Size(min=3, max=20)
 	private String breed;
 	private int age;
+	@OneToOne(mappedBy="dog", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private Tag tag;
 	@Column(updatable=false)
 	@DateTimeFormat(pattern = "yyyy-MM--DD HH:mm:ss")
 	private Date createdAt;
@@ -79,6 +84,14 @@ public class Dog {
 	}
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public Tag getTag() {
+		return tag;
+	}
+
+	public void setTag(Tag tag) {
+		this.tag = tag;
 	}
 
 	public Date getCreatedAt() {

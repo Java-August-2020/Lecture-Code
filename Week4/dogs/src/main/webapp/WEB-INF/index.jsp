@@ -19,15 +19,28 @@
 <td>Name</td>
 <td>Breed</td>
 <td>Age</td>
+<td>Tag</td>
 </thead>
 <tbody>
 <c:forEach items="${allDogs}" var="dog">
 <tr>
 
 <td>${dog.id}</td>
-<td>${dog.name}</td>
+<td><a href="/${dog.id}">${dog.name}</a></td>
 <td>${dog.breed}</td>
 <td>${dog.age}</td>
+<td>
+<c:choose>
+<c:when test="${dog.tag != null }">
+Pet has been registered
+</c:when>
+<c:otherwise>
+Pet needs to be registered
+</c:otherwise>
+</c:choose>
+</td>
+
+
 </tr>
 </c:forEach>
 
