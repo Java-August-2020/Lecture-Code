@@ -41,6 +41,10 @@ public class DogService {
 		return this.dRepo.save(updatedDog);
 	}
 	
+	public Dog updateDog(Dog updatedDog) {
+		return this.dRepo.save(updatedDog);
+	}
+	
 	// deletePet
 	public void deletePet(Long id) {
 		this.dRepo.deleteById(id);

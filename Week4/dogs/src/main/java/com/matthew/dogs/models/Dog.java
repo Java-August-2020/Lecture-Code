@@ -1,6 +1,7 @@
 package com.matthew.dogs.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -25,7 +27,7 @@ public class Dog {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	@NotBlank
-	@Size(min=1, max=20)
+	@Size(min=2, max=20)
 	private String name;
 	@NotBlank
 	@Size(min=3, max=20)
@@ -33,6 +35,8 @@ public class Dog {
 	private int age;
 	@OneToOne(mappedBy="dog", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private Tag tag;
+	@OneToMany(mappedBy="dog", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private List<Toy> toys;
 	@Column(updatable=false)
 	@DateTimeFormat(pattern = "yyyy-MM--DD HH:mm:ss")
 	private Date createdAt;
@@ -108,6 +112,14 @@ public class Dog {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public List<Toy> getToys() {
+		return toys;
+	}
+
+	public void setToys(List<Toy> toys) {
+		this.toys = toys;
 	}
 	
 	

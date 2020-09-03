@@ -11,7 +11,7 @@
 <body>
 <div class="container">
 <h1>Welcome to Dogs dot Com</h1>
-<a href="/new">Create a new four legged best buddy.</a>
+<a href="/new">Create a new four legged best buddy.</a> - <a href="/toys/new">Gift a Dog a Toy</a>
 <hr>
 <table class="table table-dark">
 <thead>
@@ -32,10 +32,10 @@
 <td>
 <c:choose>
 <c:when test="${dog.tag != null }">
-Pet has been registered
+${dog.tag.city}, ${dog.tag.state}
 </c:when>
 <c:otherwise>
-Pet needs to be registered
+<font color="#ff0000">** Not Registered **</font>
 </c:otherwise>
 </c:choose>
 </td>

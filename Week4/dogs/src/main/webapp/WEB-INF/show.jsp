@@ -17,12 +17,22 @@
 <p>Name: ${dog.name}</p>
 <p>Breed: ${dog.breed}</p>
 <p>Age: ${dog.age}</p>
+<hr>
+<h2>Toys</h2>
+<ol>
+<c:forEach items="${dog.toys}" var="toy">
+  <li>${toy.name} ${toy.color} (${toy.price})</li>
+</c:forEach>
+</ol>
 <c:choose>
 <c:when test="${dog.tag != null}">
 <p> City: ${dog.tag.city}</p>
 <p> State: ${dog.tag.state}</p>
 </c:when>
+
 <c:otherwise>
+
+
 <form:form method="POST" action="/tag" modelAttribute="tag">
 	<div class="form-data">
 		<form:label path="city">City</form:label>

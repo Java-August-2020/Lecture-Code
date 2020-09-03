@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.matthew.dogs.models.Dog;
 import com.matthew.dogs.models.Tag;
+import com.matthew.dogs.models.Toy;
 import com.matthew.dogs.services.DogService;
 import com.matthew.dogs.services.TagService;
 
@@ -75,9 +77,25 @@ public class DogController {
 	
 	@RequestMapping("/{id}")
 	public String show(@PathVariable("id") Long id, Model viewModel, @ModelAttribute("dog") Dog dog, @ModelAttribute("tag") Tag tag) {
+		Dog doggy = dService.getOneDog(id);
+		List<Toy> dogtoys= doggy.getToys();
 		viewModel.addAttribute("dog", dService.getOneDog(id));		
+		for(Toy d: dogtoys) {
+			System.out.println(d.getName());
+		}
 		return "show.jsp";
 	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public String updatePet(@Valid @ModelAttribute("dog") Dog updatedDog, BindingResult result, @ModelAttribute("tag") Tag tag) {
+		if(result.hasErrors()) {
+			return "show.jsp";
+		} else {
+			dService.updateDog(updatedDog);
+			return "redirect:/";
+		}
+	}
+	
 	
 	@PostMapping("/tag")
 	public String createTag(@Valid @ModelAttribute("tag") Tag tag, BindingResult result, Model viewModel) {
