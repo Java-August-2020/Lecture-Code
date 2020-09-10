@@ -10,6 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -17,6 +20,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -33,6 +37,13 @@ public class Dog {
 	@Size(min=3, max=20)
 	private String breed;
 	private int age;
+	@ManyToMany
+	@JoinTable(
+		name="likes",
+		joinColumns = @JoinColumn(name="dog_id"),
+		inverseJoinColumns = @JoinColumn(name="user_id")	
+		)
+	private List<User> likers;
 	@OneToOne(mappedBy="dog", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private Tag tag;
 	@OneToMany(mappedBy="dog", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
@@ -120,6 +131,14 @@ public class Dog {
 
 	public void setToys(List<Toy> toys) {
 		this.toys = toys;
+	}
+
+	public List<User> getLikers() {
+		return likers;
+	}
+
+	public void setLikers(List<User> likers) {
+		this.likers = likers;
 	}
 	
 	

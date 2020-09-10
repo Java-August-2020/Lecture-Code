@@ -3,6 +3,7 @@ package com.matthew.dogs.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.matthew.dogs.models.Dog;
 import com.matthew.dogs.models.Tag;
 import com.matthew.dogs.models.Toy;
+import com.matthew.dogs.models.User;
 import com.matthew.dogs.services.DogService;
 import com.matthew.dogs.services.TagService;
+import com.matthew.dogs.services.UserService;
+import com.matthew.dogs.validators.UserValidator;
+
 
 @Controller
 public class DogController {
@@ -29,11 +34,76 @@ public class DogController {
 	private DogService dService;
 	@Autowired
 	private TagService tService;
+	@Autowired
+	private UserService uSerivce;
+	@Autowired
+	private UserValidator validator;
 	
 	@RequestMapping("/")
-	public String index(Model viewModel) {
+	public String index(@ModelAttribute("user") User user) {
+		return "landing.jsp";
+	}
+	
+	@PostMapping("/register")
+	public String register(@Valid @ModelAttribute("user") User user, BindingResult result, HttpSession session) {
+		validator.validate(user, result);
+		if(result.hasErrors()) {
+			// if there are validation errors, throw them back to the root route
+			return "landing.jsp";
+		}
+		User newUser = this.uSerivce.registerUser(user);
+		session.setAttribute("user_id", newUser.getId());
+		return "redirect:/dogs";
+	}
+	
+	@PostMapping("/login")
+	public String login(@RequestParam("email") String email, @RequestParam("password") String password, RedirectAttributes redirectAttrs, HttpSession session) {
+		if(!this.uSerivce.authenticateUser(email, password)) {
+			redirectAttrs.addFlashAttribute("loginError", "Invalid Credentials");
+			return "redirect:/";
+		}
+		
+		User user = this.uSerivce.getByEmail(email);
+		session.setAttribute("user_id", user.getId());
+		return "redirect:/dogs";
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
+	@RequestMapping("/likes/{id}")
+	public String like(@PathVariable("id") Long id, HttpSession session) {
+		Long userId = (Long)session.getAttribute("user_id");
+		Long dogId = id;
+		User liker = this.uSerivce.getOneUser(userId);
+		Dog likedDog = this.dService.getOneDog(dogId);
+		this.dService.addLiker(liker, likedDog);
+		return "redirect:/dogs";
+	}
+	
+	@RequestMapping("/unlike/{id}")
+	public String unlike(@PathVariable("id") Long id, HttpSession session) {
+		Long userId = (Long)session.getAttribute("user_id");
+		Long dogId = id;
+		User unliker = this.uSerivce.getOneUser(userId);
+		Dog likedDog = this.dService.getOneDog(dogId);
+		this.dService.removeLiker(unliker, likedDog);
+		return "redirect:/dogs";
+	}
+	
+	@RequestMapping("/dogs")
+	public String dogs(Model viewModel, HttpSession session) {
+		Long userId = (Long)session.getAttribute("user_id");
+		if(userId == null) {
+			return "redirect:/";
+		}
+		User loggedUser = this.uSerivce.getOneUser(userId);
 		List<Dog> dogs = this.dService.getAllPets();
 		viewModel.addAttribute("allDogs", dogs);
+		viewModel.addAttribute("user", loggedUser);
 		return "index.jsp";
 	}
 	

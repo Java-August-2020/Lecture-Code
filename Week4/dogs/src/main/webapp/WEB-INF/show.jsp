@@ -14,6 +14,12 @@
 <div class="container">
 <h1>Details For <c:out value="${dog.name}"/></h1>
 <hr>
+<h3>Likes By:</h3>
+<ol>
+<c:forEach items="${dog.likers}" var="user">
+<li>${user.firstName} ${user.lastName }</li>
+</c:forEach>
+</ol>
 <p>Name: ${dog.name}</p>
 <p>Breed: ${dog.breed}</p>
 <p>Age: ${dog.age}</p>
@@ -29,10 +35,7 @@
 <p> City: ${dog.tag.city}</p>
 <p> State: ${dog.tag.state}</p>
 </c:when>
-
 <c:otherwise>
-
-
 <form:form method="POST" action="/tag" modelAttribute="tag">
 	<div class="form-data">
 		<form:label path="city">City</form:label>
