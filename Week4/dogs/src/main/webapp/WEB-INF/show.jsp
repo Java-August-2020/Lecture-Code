@@ -13,6 +13,7 @@
 <body>
 <div class="container">
 <h1>Details For <c:out value="${dog.name}"/></h1>
+<p>Owner: <a href="${dog.owner.id}">${dog.owner.firstName}</a></p>
 <hr>
 <h3>Likes By:</h3>
 <ol>
@@ -55,6 +56,8 @@
 
 
 <hr>
+<c:if test="${dog.owner.id == userID }">
+<h4>Edit Dog Details</h4>
 <form:form action="/${dog.id}" method="post" modelAttribute="dog">
 <input type="hidden" name="_method" value="put">
     <div class="form-data">
@@ -74,6 +77,7 @@
     </p>
     <button>Edit Dog Details</button>
 </form:form>  
+</c:if>
 </div>  
 </body>
 </html>

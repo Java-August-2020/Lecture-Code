@@ -109,8 +109,10 @@ public class DogController {
 	
 	
 	@PostMapping("/")
-	public String createNew(@Valid @ModelAttribute("dog") Dog newDog, BindingResult result) {
+	public String createNew(@Valid @ModelAttribute("dog") Dog newDog, BindingResult result, HttpSession session, Model viewModel) {
 		if(result.hasErrors()) {
+			Long userId = (Long)session.getAttribute("user_id");
+			viewModel.addAttribute("userID", userId);
 			return "new.jsp";
 		} else {
 			this.dService.createDog(newDog);
@@ -141,18 +143,17 @@ public class DogController {
 	
 	
 	@RequestMapping("/new")
-	public String create(@ModelAttribute("dog") Dog dog) {
+	public String create(@ModelAttribute("dog") Dog dog, HttpSession session, Model viewModel) {
+		Long userId = (Long)session.getAttribute("user_id");
+		viewModel.addAttribute("userID", userId);
 		return "new.jsp";
 	}
 	
 	@RequestMapping("/{id}")
-	public String show(@PathVariable("id") Long id, Model viewModel, @ModelAttribute("dog") Dog dog, @ModelAttribute("tag") Tag tag) {
-		Dog doggy = dService.getOneDog(id);
-		List<Toy> dogtoys= doggy.getToys();
+	public String show(@PathVariable("id") Long id, Model viewModel, @ModelAttribute("dog") Dog dog, @ModelAttribute("tag") Tag tag, HttpSession session) {
 		viewModel.addAttribute("dog", dService.getOneDog(id));		
-		for(Toy d: dogtoys) {
-			System.out.println(d.getName());
-		}
+		Long userId = (Long)session.getAttribute("user_id");
+		viewModel.addAttribute("userID", userId);
 		return "show.jsp";
 	}
 	
@@ -166,12 +167,19 @@ public class DogController {
 		}
 	}
 	
+	@RequestMapping("/users/{id}")
+	public String userProfile(@PathVariable Long id, Model viewModel){
+			viewModel.addAttribute("user", this.uSerivce.getOneUser(id));
+			return "profile.jsp";
+	}
 	
 	@PostMapping("/tag")
-	public String createTag(@Valid @ModelAttribute("tag") Tag tag, BindingResult result, Model viewModel) {
+	public String createTag(@Valid @ModelAttribute("tag") Tag tag, BindingResult result, Model viewModel, HttpSession session) {
 		Long dogId = tag.getDog().getId();
 		if(result.hasErrors()) {
 			viewModel.addAttribute("dog", dService.getOneDog(dogId));
+			Long userId = (Long)session.getAttribute("user_id");
+			viewModel.addAttribute("userID", userId);
 			return "show.jsp";
 		} else {
 			this.tService.create(tag);

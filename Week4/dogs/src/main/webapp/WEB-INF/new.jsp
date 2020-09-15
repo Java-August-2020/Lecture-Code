@@ -15,6 +15,7 @@
 <h1>Add a new Dog</h1>
 <hr>
 <form:form action="/" method="post" modelAttribute="dog">
+    <form:hidden path="owner" value="${ userID }"/>
     <div class="form-data">
         <form:label path="name">Name</form:label>
         <form:errors path="name"/>
@@ -30,6 +31,8 @@
         <form:errors path="age"/>
         <form:input path="age"/>
     </p>
+    
+
     <button>Add Dog To Database</button>
 </form:form>    
 
