@@ -15,7 +15,7 @@
 <h1>Details For <c:out value="${dog.name}"/></h1>
 <p>Owner: <a href="${dog.owner.id}">${dog.owner.firstName}</a></p>
 <hr>
-<h3>Likes By:</h3>
+<h3>Liked By:</h3>
 <ol>
 <c:forEach items="${dog.likers}" var="user">
 <li>${user.firstName} ${user.lastName }</li>
